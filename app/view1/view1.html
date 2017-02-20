@@ -1,12 +1,14 @@
-<div ng-show='vm.currentQuestionIndex < vm.questions.length' class='panel panel-default col-md-4 col-md-offset-4'>  
+<div ng-show='vm.currentQuestionIndex < vm.questions.length' class='panel panel-default col-md-4 col-md-offset-4'>
   <div class="panel-body">
     <h2 class='text-center'>{{vm.currentQuestion.question}}</h2>
-    <ul>
-      <li ng-repeat='choice in vm.currentQuestion.choices'>
-        <input type='radio' ng-model='vm.choice' value='{{choice}}' />
-        {{choice}}
-      </li>
-    </ul>
+    <div class="form-group">
+      <div class="radio" ng-repeat='choice in vm.currentQuestion.choices'>
+        <label>
+          <input ng-model='vm.choice' type="radio" name="" value='{{choice}}' checked=""><span class="circle"></span><span class="check"></span>
+          {{choice}}
+        </label>
+      </div>
+    </div>
 
     <div class='text-center'>
       <button class='btn btn-lg btn-primary' ng-click='vm.answerQuestion(vm.choice)'>Select {{vm.choice}}</button>

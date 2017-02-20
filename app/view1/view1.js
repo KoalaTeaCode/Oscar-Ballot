@@ -48,4 +48,10 @@ angular.module('myApp.view1', ['ngRoute'])
       if (answer && answer.choice) vm.choice = answer.choice;
     });
 	}, true);
+
+
+  $rootScope.$on('$viewContentLoaded', function(){
+    console.log("FD")
+    $.material.init();
+  });
 }]);

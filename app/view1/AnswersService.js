@@ -42,6 +42,7 @@ angular.module('myApp')
       };
       statObject[choice] = 1;
       firebaseStats.$add(statObject);
+      loadStats();
     } else {
       if (!stat[choice]) stat[choice] = 0;
       if (oldChoice !== choice) stat[choice] += 1;
@@ -51,6 +52,11 @@ angular.module('myApp')
   };
 
   api.loadAnswers = function (facebookUserId) {
+    for (var index in api.answers) {
+      let answer = api.answers[index];
+      answer.facebookUserId = facebookUserId;
+      api.answers.$save(answer);
+    }
     var query = ref.orderByChild("facebookUserId").equalTo(facebookUserId);
     api.answers = $firebaseArray(query);
     $rootScope.$emit("answers-loaded", api.answers);
@@ -63,16 +69,18 @@ angular.module('myApp')
     if (answer) {
       oldChoice = angular.copy(answer.choice);
       answer.choice = choice;
-      answer.facebookUserId = facebookUserId;
+      if (facebookUserId) answer.facebookUserId = facebookUserId;
       answer.ipAddress = api.ipAddress;
       api.answers.$save(answer);
     } else {
-      api.answers.$add({
+      let answer = {
         questionId: questionId,
         choice: choice,
-        facebookUserId: facebookUserId,
+        // facebookUserId: facebookUserId,
         ipAddress: api.ipAddress,
-      });
+      };
+      if (facebookUserId) answer.facebookUserId = facebookUserId;
+      api.answers.$add(answer);
     }
     updateStats(questionId, choice, oldChoice);
   };

@@ -10,7 +10,7 @@ angular.module('myApp')
   api.answers = [];//$firebaseArray(ref);
   api.ipAddress;
 
-  var json = 'http://ipv4.myexternalip.com/json';
+  var json = 'https://ipv4.myexternalip.com/json';
   $http.get(json).then(function(result) {
       api.ipAddress = result.data.ip;
       ref.orderByChild("ipAddress").equalTo(api.ipAddress);

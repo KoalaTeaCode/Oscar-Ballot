@@ -16,8 +16,8 @@ angular.module('myApp')
   var json = 'https://ipv4.myexternalip.com/json';
   $http.get(json).then(function(result) {
       api.ipAddress = result.data.ip;
-      ref.orderByChild("ipAddress").equalTo(api.ipAddress);
-      api.answers = $firebaseArray(ref);
+      var query = ref.orderByChild("ipAddress").equalTo(api.ipAddress);
+      api.answers = $firebaseArray(query);
       $rootScope.$emit("answers-loaded", api.answers);
   }, function(e) {
       alert("error");
@@ -51,8 +51,8 @@ angular.module('myApp')
   };
 
   api.loadAnswers = function (facebookUserId) {
-    ref.orderByChild("facebookUserId").equalTo(facebookUserId);
-    api.answers = $firebaseArray(ref);
+    var query = ref.orderByChild("facebookUserId").equalTo(facebookUserId);
+    api.answers = $firebaseArray(query);
     $rootScope.$emit("answers-loaded", api.answers);
     return api.answers;
   };

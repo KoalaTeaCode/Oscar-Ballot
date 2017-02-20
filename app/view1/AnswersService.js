@@ -35,6 +35,12 @@ angular.module('myApp')
   loadStats();
 
   function updateStats(questionId, choice, oldChoice) {
+    // @TODO; Hacky sync
+    for (var index in firebaseStats) {
+      var stat = firebaseStats[index];
+      answerStatsHashed[stat.questionId] = stat;
+    }
+
     var stat = answerStatsHashed[questionId];
     if (!stat) {
       var statObject = {

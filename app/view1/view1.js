@@ -38,6 +38,13 @@ angular.module('myApp.view1', ['ngRoute'])
     Auth.loginWithFacebook();
   }
 
+  this.showQuestionAtIndex = function (index) {
+    this.currentQuestionIndex = index;
+    this.currentQuestion = this.questions[this.currentQuestionIndex];
+    var answer = Answers.getAnswerForQuestion(this.currentQuestion.id);
+    if (answer && answer.choice) this.choice = answer.choice;
+  }
+
   $rootScope.$on('facebookUserId-loaded', function (event, facebookUserId) {
     vm.facebookUserId = facebookUserId;
 	});

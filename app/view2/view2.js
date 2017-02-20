@@ -64,4 +64,12 @@ angular.module('myApp.view2', ['ngRoute', 'chart.js'])
     if (this.currentQuestionIndex >= this.questions.length) return;
     this.currentQuestion = this.questions[this.currentQuestionIndex];
   }
+
+  this.showQuestionAtIndex = function (index) {
+    this.answerShown = false;
+    this.currentQuestionIndex = index;
+    this.currentQuestion = this.questions[this.currentQuestionIndex];
+    var answer = Answers.getAnswerForQuestion(this.currentQuestion.id);
+    if (answer && answer.choice) this.choice = answer.choice;
+  }
 }]);

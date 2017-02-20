@@ -1,8 +1,19 @@
-<div class="alert alert-info col-md-4 col-md-offset-4">
-  <strong></strong> Check out details on the <a style="color:#03f458;" href='http://oscar.go.com/nominees' target='_blank'>nominations.</a>
+<div class="row">
+  <div class="alert alert-info col-md-4 col-md-offset-4">
+    <strong></strong> Check out details on the <a style="color:#03f458;" href='http://oscar.go.com/nominees' target='_blank'>nominations.</a>
+  </div>
 </div>
 
-<div ng-show='vm.currentQuestionIndex < vm.questions.length' class='panel panel-default col-md-4 col-md-offset-4'>
+<div ng-show='vm.currentQuestionIndex < vm.questions.length' class='panel panel-default col-md-3 col-md-offset-1' style='height: 44rem; margin-right: 1rem;'>
+  <h3>Questions</h3>
+  <div class="panel-body" style='height: 80%; overflow-y: scroll;'>
+    <ul style='padding-left: 0px;'>
+      <li class='btn btn-default' ng-repeat='question in vm.questions' ng-click='vm.showQuestionAtIndex($index)' style='margin-top: 1rem;'>{{question.question}}</li>
+    </ul>
+  </div>
+</div>
+
+<div ng-show='vm.currentQuestionIndex < vm.questions.length' class='panel panel-default col-md-4' style='height: 44rem;'>
   <div class="panel-body">
     <h2 class='text-center'>{{vm.currentQuestion.question}}</h2>
     <div class="form-group">

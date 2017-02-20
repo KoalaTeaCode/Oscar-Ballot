@@ -10,8 +10,10 @@ angular.module('myApp.view1', ['ngRoute'])
   });
 }])
 
-.controller('View1Ctrl', ['Answers', 'Questions', '$firebaseAuth', function(Answers, Questions, $firebaseAuth) {
+.controller('View1Ctrl', ['Answers', 'Questions', 'Auth', '$rootScope', function(Answers, Questions, Auth, $rootScope) {
   var vm = this;
+
+  vm.facebookUserId = Auth.facebookUserId;
 
   this.currentQuestionIndex = 0;
   this.choice = '';
@@ -22,7 +24,7 @@ angular.module('myApp.view1', ['ngRoute'])
 
   this.answerQuestion = function (choice) {
     var currentQuestion = this.questions[this.currentQuestionIndex];
-    Answers.answerQuestion(currentQuestion.id, choice);
+    Answers.answerQuestion(currentQuestion.id, choice, vm.facebookUserId);
     this.choice = '';
     this.currentQuestionIndex += 1;
     if (this.currentQuestionIndex >= this.questions.length) return;
@@ -31,12 +33,19 @@ angular.module('myApp.view1', ['ngRoute'])
     if (answer && answer.choice) this.choice = answer.choice;
   };
 
-  var auth = $firebaseAuth();
 
-  // login with Facebook
-  auth.$signInWithPopup("facebook").then(function(firebaseUser) {
-    console.log("Signed in as:", firebaseUser.uid);
-  }).catch(function(error) {
-    console.log("Authentication failed:", error);
-  });
+  this.loginWithFacebook = function () {
+    Auth.loginWithFacebook();
+  }
+
+  $rootScope.$on('facebookUserId-loaded', function (event, facebookUserId) {
+    vm.facebookUserId = facebookUserId;
+	});
+
+  $rootScope.$on('answers-loaded', function (event, answers) {
+    answers.$loaded(function (result) {
+      var answer = Answers.getAnswerForQuestion(vm.currentQuestion.id);
+      if (answer && answer.choice) vm.choice = answer.choice;
+    });
+	}, true);
 }]);
